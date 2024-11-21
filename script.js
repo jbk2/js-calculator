@@ -11,9 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     btn.addEventListener('mousedown', function(event) {
       let btnValue = event.target.dataset.value;
       btn.classList.add('press');
-      if(event.target.dataset.value === 'AC') { togglePower() };
-      if(!Object.is(parseInt(btnValue), NaN)) { populateScreen(btnValue) };
-      
+      processBtn(btnValue);
     });
     
     btn.addEventListener('mouseup', function(event) {
@@ -24,17 +22,32 @@ document.addEventListener('DOMContentLoaded', function() {
       btn.classList.remove('press');
     });
   });
-  
-  
+
+  function processBtn(value) {
+    if(value === 'AC') {
+      togglePower();
+    } else if (value === "C") {
+      zeroScreen();
+    } else if ('0123456789'.includes(value)) {
+      populateScreen(value)
+    } else if ('÷x-+'.includes(value)) {
+      console.log(value + ' is an operator')
+    };
+  };
+
   function togglePower() {
     powerOn = !powerOn;
 
-    if(powerOn) { 
-      screen.innerHTML = '0';
-    } else {
-      screen.innerHTML = '';
-    }
+    powerOn ? zeroScreen() : emptyScreen()
   };
+
+  function zeroScreen() {
+    screen.innerHTML = '0';
+  }
+
+  function emptyScreen() {
+    screen.innerHTML = '';
+  }
   
   function populateScreen(value) {
     screen.innerHTML += value;
