@@ -31,9 +31,6 @@ body {
 }
 
 /* #################### Upper Elements ######################### */
-#screen {
-}
-
 #upper-row {
   display: flex;
   justify-content: space-evenly;
@@ -95,16 +92,22 @@ body {
   /* text-shadow: 0 0 2px black; */
 }
 
-#screen-io {
+#digits-io {
   align-self: center;
   margin-right: 0.6rem;
-  padding-top: 0.5rem;
+  padding-top: 0.3rem;
   max-width: 100%;
   overflow: hidden;
   text-align: right; /* Align content to the right */
   text-overflow: ellipsis; /* Add ellipsis for clipped content */
   white-space: nowrap;
   /* direction: rtl; */
+}
+
+#operator-icons {
+  font-weight: 900;
+  color: rgb(57, 61, 80);
+  line-height: 0.5rem;
 }
 
 /* #################### Keypad layout ######################### */

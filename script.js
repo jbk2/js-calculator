@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 
   const btns = document.querySelectorAll('button.btn');
-  const screen = document.getElementById('screen-io');
+  const screen = document.getElementById('digits-io');
   const acBtn = Array.from(btns).find(btn => btn.dataset.value === 'AC');
   let powerOn = false
   
@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
     } else if ('0123456789'.includes(value)) {
       populateScreen(value)
     } else if ('÷x-+'.includes(value)) {
+      showOperatorIcon(value);
       console.log(value + ' is an operator')
     };
   };
@@ -48,8 +49,15 @@ document.addEventListener('DOMContentLoaded', function() {
   function emptyScreen() {
     screen.innerHTML = '';
   }
+
+  function showOperatorIcon(value) {
+    let icon = document.getElementById(value);
+    icon.removeAttribute('hidden');
+    console.log(icon);
+  }
   
   function populateScreen(value) {
+    console.log(value);
     screen.innerHTML += value;
   };
 

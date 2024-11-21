@@ -12,7 +12,7 @@
 </head>
 <body>
   <div id="calculator-body">
-    <div id="screen">
+    <div id="upper-section">
       <div id="upper-row" class="flex">
         <h3 id="brand">CASIO</h3>
         <div id="pv-cell">
@@ -24,7 +24,15 @@
       </div>
       <div id="lower-row">
         <div id="lcd-screen">
-          <div id="screen-io" class="seven-segment"></div>
+          <div id="screen-io">
+            <div id="operator-icons">
+              <span id="÷" hidden>÷</span>
+              <span id="x" hidden>x</span>
+              <span id="-" hidden>-</span>
+              <span id="+" hidden>+</span>
+            </div>
+            <div id="digits-io" class="seven-segment">098765</div>
+          </div>
         </div>
       </div>
     </div>
@@ -55,34 +63,6 @@
       <button id="btn-6-3" class="btn col-3 xl-font" data-value="."><span style="position: relative; top: -6px;">.</span></button>
       <button id="btn-6-4" class="btn col-4 xl-font" data-value="=">=</button>
       <button id="btn-6-5" class="btn col-5 xl-font" data-value="+">+</button>
-<!--       
-      
-      <div id="btn-1-4" class="btn col-4 md-font">TAX -</div>
-      <div id="btn-1-5" class="btn col-5 md-font">TAX +</div>
-      <div id="btn-2-1" class="btn col-1">MRC</div>
-      <div id="btn-2-2" class="btn col-2">M-</div>
-      <div id="btn-2-3" class="btn col-3">M+</div>
-      <div id="btn-2-4" class="btn col-4"><span id="set-text">SET<br></span>%</div>
-      <div id="btn-2-5" class="btn col-5 xl-font">÷</div>
-      <div id="btn-3-1" class="btn col-1"><span id="mode-text">MODE<br></span>M/EX</div>
-      <div id="btn-3-2" class="btn col-2 xl-font">7</div>
-      <div id="btn-3-3" class="btn col-3 xl-font">8</div>
-      <div id="btn-3-4" class="btn col-4 xl-font">9</div>
-      <div id="btn-3-5" class="btn col-5 xl-font">x</div>
-      <div id="btn-4-1" class="btn col-1">+/-</div>
-      <div id="btn-4-2" class="btn col-2 xl-font">4</div>
-      <div id="btn-4-3" class="btn col-3 xl-font">5</div>
-      <div id="btn-4-4" class="btn col-4 xl-font">6</div>
-      <div id="btn-4-5" class="btn col-5 xl-font">-</div>
-      <div id="btn-5-1" class="btn col-1 xl-font">C</div>
-      <div id="btn-5-2" class="btn col-2 xl-font">1</div>
-      <div id="btn-5-3" class="btn col-3 xl-font">2</div>
-      <div id="btn-5-4" class="btn col-4 xl-font">3</div>
-      <div id="btn-6-1" class="btn col-1 xl-font">AC</div>
-      <div id="btn-6-2" class="btn col-2 xl-font">0</div>
-      <div id="btn-6-3" class="btn col-3 xl-font">.</div>
-      <div id="btn-6-4" class="btn col-4 xl-font">=</div>
-      <div id="btn-6-5" class="btn col-5 xl-font">+</div> -->
     </div>
 
   </div>
