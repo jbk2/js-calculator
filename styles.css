@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Seven Segment';
+  font-style: normal;
+  font-weight: 400;
+  src: url('SevenSegFont.woff') format('woff');
+}
+
 :root {
   --font-roboto: "Roboto", sans-serif;
   --font-weight-medium: 500;
@@ -8,10 +15,11 @@ body {
   font-family: var(--font-roboto);
   font-weight: var(--font-weight-medium);
   font-size: large;
+  color: rgb(221, 221, 221);
 }
 
 #calculator-body {
-  width: fit-content;
+  width: 22.5rem;
   margin: auto;
   padding: 1.6rem;
   margin-top: 15vh;
@@ -20,6 +28,7 @@ body {
   box-shadow: 0 0 0 1px black, 0 0 0 5px rgb(46, 37, 37);
 }
 
+/* #################### Upper Elements ######################### */
 #screen {
 }
 
@@ -45,6 +54,7 @@ body {
   margin-right: 1rem;
   display: flex;
   justify-content: space-evenly;
+  box-shadow: inset 0 0 4px black;;
 }
 
 .line {
@@ -57,16 +67,45 @@ body {
   font-size: medium;
 }
 
+/* #################### LCD Screen Styling ######################### */
 #lcd-screen {
+  display: flex;
+  justify-content: end;
+  align-content: center;
   width: 100%;
   height: 4rem;
   margin-top: 0.4rem;
   margin-bottom: 1.4rem;
   background-color: rgb(199, 213, 199);
   border-radius: 0.2rem;
-  box-shadow: 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.2);
+  box-shadow: 
+    inset 0 0 5px black; /* Top-left highlight rgba(255, 255, 255, 0.2) */ 
+  overflow: hidden;
+  position: relative;
 }
 
+.seven-segment {
+  font-family: 'Seven Segment', sans-serif;
+  font-size: 3.4rem;
+  font-weight: 900;
+  color: rgb(71, 75, 98);
+  letter-spacing: 0.2rem;
+  /* text-shadow: 0 0 2px black; */
+}
+
+#screen-io {
+  align-self: center;
+  margin-right: 0.6rem;
+  padding-top: 0.2rem;
+  max-width: 100%;
+  overflow: hidden;
+  text-align: right; /* Align content to the right */
+  text-overflow: ellipsis; /* Add ellipsis for clipped content */
+  white-space: nowrap;
+  direction: rtl;
+}
+
+/* #################### Keypad layout ######################### */
 #keypad {
   width: fit-content;
   display: grid;
@@ -84,16 +123,18 @@ body {
 #keypad > .btn:nth-child(2) {
   grid-column: 5;
 }
- 
+
 #keypad > .btn:nth-child(22) {
   grid-column: 1;
 }
 
+/* Last btn, + btn */
 #btn-6-5 {
   grid-row: 5 / 7;
   grid-column: 5;
 }
 
+/* #################### Button Styling ######################### */
 .btn {
   background-color: rgb(28, 26, 26);
   border: 0.1rem solid black;
@@ -101,7 +142,7 @@ body {
   /* height: 2.8rem; */
   width: 3.8rem;
   border-radius: 0.3rem;
-  color: white;
+  /* color: white; */
   text-align: center;
   align-content: center;
 }
@@ -125,3 +166,12 @@ body {
 #btn-3-1 #mode-text {
   font-size: x-small;
 }
+
+#btn-5-1 {
+  background-color: rgb(151, 87, 2);
+}
+
+#btn-6-1 {
+  background-color: rgb(151, 87, 2);
+}
+
