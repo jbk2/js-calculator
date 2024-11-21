@@ -21,10 +21,13 @@ body {
   width: 22.5rem;
   margin: auto;
   padding: 1.6rem;
+  padding-top: 0.8rem;
   margin-top: 15vh;
   background-color: rgb(62, 59, 59);
   border-radius: 1rem;
-  box-shadow: 0 0 0 1px black, 0 0 0 5px rgb(46, 37, 37);
+  box-shadow: 0 0 0 1px black,
+              0 0 0 5px rgb(46, 37, 37),
+              3px 5px 9px 6px rgb(124, 119, 119);
 }
 
 /* #################### Upper Elements ######################### */
@@ -101,7 +104,7 @@ body {
   text-align: right; /* Align content to the right */
   text-overflow: ellipsis; /* Add ellipsis for clipped content */
   white-space: nowrap;
-  direction: rtl;
+  /* direction: rtl; */
 }
 
 /* #################### Keypad layout ######################### */
