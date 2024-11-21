@@ -115,16 +115,16 @@ body {
   gap: 0.6rem;
 }
 
-#keypad > .btn:nth-child(1) {
+#keypad > button:nth-child(1) {
   grid-column: 4;
   background-color: rgb(84, 126, 84);
 }
 
-#keypad > .btn:nth-child(2) {
+#keypad > button:nth-child(2) {
   grid-column: 5;
 }
 
-#keypad > .btn:nth-child(22) {
+#keypad > button:nth-child(22) {
   grid-column: 1;
 }
 
@@ -138,13 +138,15 @@ body {
 .btn {
   background-color: rgb(28, 26, 26);
   border: 0.1rem solid black;
-  box-shadow: 0.1rem 0.1rem 0.3rem rgba(0, 0, 0, 0.5);
+  /* box-shadow: 0.1rem 0.1rem 0.3rem rgba(0, 0, 0, 0.5); */
+  box-shadow: 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.5);
   /* height: 2.8rem; */
   width: 3.8rem;
   border-radius: 0.3rem;
-  /* color: white; */
+  color: rgb(221, 221, 221);
   text-align: center;
   align-content: center;
+  cursor: pointer;
 }
 
 /* Set% button */
@@ -183,3 +185,7 @@ body {
   font-size: medium;
 }
 
+.press {
+  box-shadow: none;
+  border: border: 0.05rem solid black;
+}
