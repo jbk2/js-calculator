@@ -1,183 +1,140 @@
-document.addEventListener('DOMContentLoaded', function() {
-
+document.addEventListener('DOMContentLoaded', function () {
   const btns = document.querySelectorAll('button.btn');
-  let screen = document.getElementById('screen-io');
-  const acBtn = Array.from(btns).find(btn => btn.dataset.value === 'AC');
-  let powerOn = false
-  let input = [], operator = [];
-  let firstVal, secondVal
-  
-  // For Each button click
-  btns.forEach((btn) => {
-    btn.addEventListener('mousedown', function(event) {
-      let btnValue = event.target.dataset.value;
-      btn.classList.add('press');
-      processBtn(btnValue);
-    });
-    
-    btn.addEventListener('mouseup', function(event) {
-      setTimeout(() => btn.classList.remove('press'), 100);
-    });
-    
-    btn.addEventListener('mouseleave', function(event) {
-      btn.classList.remove('press');
-    });
+  const icons = document.querySelectorAll('#operator-icons span');
+  const screen = document.getElementById('screen-io');
+
+  let powerOn = false;
+  let input = [];
+  let operator = null;
+  let firstVal = null;
+  let resultDisplayed = false;
+
+  // Add event listener to buttons
+  document.getElementById('keypad').addEventListener('click', (event) => {
+    const btn = event.target.closest('button.btn');
+    if (!btn) return;
+    const value = btn.dataset.value;
+
+    btn.classList.add('press');
+    setTimeout(() => btn.classList.remove('press'), 100);
+
+    processBtn(value);
   });
 
   function processBtn(value) {
-    if(value === 'AC') {
-      togglePower();
-      clearOperator()
-    } else if (value === "C") {
-      if(powerOn) {
-        zeroScreen();
-        clearOperator();
-      }
-    } else if ('0123456789'.includes(value)) {
-      if((firstVal && firstVal.length > 0) && (operator && operator.length > 0) && (input && input.length === 0)) { emptyScreenDigits() };
-      addInput(value);
-      populateScreen(value)
-    } else if ('÷x-+'.includes(value)) {
-      setOperator(value);
-      setFirstVal();
-      toggleOperatorIcon(value);
-      console.log(value + ' is an operator')
-      console.log(operator + ' is what operator is')
-    } else if (value === '=') {
-      if(firstVal.length === 0) { return 'firstVal not set' };
-      setSecondVal();
-      renderCalculation(calculate());
-      console.log(value + ' was pressed, need to process()')
-    };
-  };
+    if (!powerOn && value !== 'AC') return;
+
+    switch (true) {
+      case value === 'AC':
+        togglePower();
+        resetCalculator();
+        break;
+
+      case value === 'C':
+        resetInput();
+        updateScreen('0');
+        break;
+
+      case /\d/.test(value): // Numbers
+        handleDigit(value);
+        break;
+
+      case value === '.': // Decimal point
+        handleDecimal();
+        break;
+
+      case '÷x-+'.includes(value): // Operators
+        handleOperator(value);
+        break;
+
+      case value === '=': // Equals
+        handleEquals();
+        break;
+    }
+  }
 
   function togglePower() {
     powerOn = !powerOn;
-
-    powerOn ? zeroScreen() : emptyScreen()
-  };
-
-  function zeroScreen() {
-    removeOperatorIcons();
-    clearOperator();
-    clearInput();
-    screen.innerHTML = '0';
+    resetCalculator();
+    powerOn ? updateScreen('0') : updateScreen('');
   }
 
-  function emptyScreen() {
-    removeOperatorIcons();
-    clearOperator();
-    clearInput();
-    screen.innerHTML = '';
-  }
-
-  function emptyScreenDigits() {
-    clearInput();
-    screen.innerHTML = '';
-  }
-
-  function toggleOperatorIcon(value) {
-    removeOperatorIcons();
-    let icon = document.getElementById(value);
-    icon.classList.toggle('visible');
-  }
-  
-  function populateScreen(value) {
-    screen = document.getElementById('screen-io');
-    if(!powerOn) return;
-    if(screen.textContent === '0') {
-      screen.innerHTML = value;
-    } else {
-      screen.innerHTML += value;
-    };
-  };
-
-  function renderCalculation(value) {
-    screen.innerHTML = value;
-    resetValues();
-    input = value;
-  }
-
-  function addInput(value) {
-    input.push(value);
-  }
-
-  function clearInput() {
+  function resetCalculator() {
     input = [];
+    operator = null;
+    firstVal = null;
+    resultDisplayed = false;
+    clearOperatorIcons();
   }
 
-  function setFirstVal() {
-    firstVal = input;
+  function resetInput() {
     input = [];
+    resultDisplayed = false;
   }
 
-  function setSecondVal() {
-    secondVal = input;
-    input = [];
+  function updateScreen(content) {
+    screen.innerHTML = content;
   }
 
-  function removeOperatorIcons() {
-    let icons = document.querySelectorAll('#operator-icons span');
+  function clearOperatorIcons() {
     icons.forEach(icon => icon.classList.remove('visible'));
   }
 
-  function setOperator(value) {
-    operator = [value];
-    console.log('setting operator - ' + operator[0]);
-  };
-
-  function clearOperator() {
-    operator = [];
-  }
-
-  function resetValues() {
-    operator = []
-    firstVal = []
-    secondVal = []
-  }
-  
-  // ##################### Maths functions #############################
-  function add(augend, addend) {
-    let sum = +(augend) + +(addend);
-    console.log('i added and got ;' + sum);
-    return sum;
-  };
-  
-  function subtract(minuend, subtrahend) {
-    let difference = +(minuend) - +(subtrahend);
-    return difference;
-  };
-  
-  function divide(dividend, divisor) {
-    let quotient = +(dividend) / +(divisor);
-    return quotient;
-  };
-  
-  function multiply(multiplicand, multiplier) {
-    let product = +(multiplicand) * +(multiplier);
-    return product;
-  };
-
-  function calculate() {
-    firstVal = firstVal.reduce((accumulator, current) => accumulator + current);
-    secondVal = secondVal.reduce((accumulator, current) => accumulator + current);
-    
-    switch (operator[0]) {
-      case '+':
-        return add(firstVal, secondVal);
-        break;
-      case '-':
-        return subtract(firstVal, secondVal);
-        break;
-      case '÷':
-        return divide(firstVal, secondVal);
-        break;
-      case 'x':
-        return multiply(firstVal, secondVal);
-        break;
+  function handleDigit(value) {
+    if (resultDisplayed) {
+      // Start fresh after a result
+      resetCalculator();
     }
-  };
-  
-});
+    input.push(value);
+    updateScreen(input.join(''));
+  }
 
-// Deal with decimals
+  function handleDecimal() {
+    if (!input.includes('.')) {
+      input.push('.');
+      updateScreen(input.join(''));
+    }
+  }
+
+  function handleOperator(value) {
+    if (resultDisplayed) {
+      firstVal = parseFloat(screen.innerHTML);
+      resultDisplayed = false;
+    } else if (!firstVal) {
+      firstVal = parseFloat(input.join(''));
+    }
+    operator = value;
+    input = [];
+    toggleOperatorIcon(value);
+  }
+
+  function toggleOperatorIcon(value) {
+    clearOperatorIcons();
+    const icon = document.getElementById(value);
+    if (icon) icon.classList.add('visible');
+  }
+
+  function handleEquals() {
+    if (!firstVal || !operator) return;
+
+    const secondVal = parseFloat(input.join(''));
+    const result = calculate(firstVal, secondVal, operator);
+
+    updateScreen(result);
+    firstVal = result; // Set result as the new first value
+    operator = null;
+    input = [];
+    resultDisplayed = true;
+    clearOperatorIcons();
+  }
+
+  function calculate(first, second, operator) {
+    switch (operator) {
+      case '+': return first + second;
+      case '-': return first - second;
+      case '÷': return second === 0 ? 'Error' : first / second;
+      case 'x': return first * second;
+      default: return 'Error';
+    }
+  }
+});
