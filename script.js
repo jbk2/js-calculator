@@ -132,10 +132,15 @@ document.addEventListener('DOMContentLoaded', function () {
   
     const secondVal = parseFloat(input.join(''));
     const result = calculate(firstVal, secondVal, operator);
-    const roundedResult = roundToTenDigits(result);
   
-    updateScreen(roundedResult);
-    firstVal = result; // Use result as the new first value
+    if (typeof result === 'string') {
+      updateScreen(result);
+    } else {
+      const roundedResult = roundToTenDigits(result);
+      updateScreen(roundedResult);
+      firstVal = result; // Use result as the new first value
+    }
+  
     operator = null;
     input = [];
     resultDisplayed = true;
@@ -146,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function () {
     switch (operator) {
       case '+': return first + second;
       case '-': return first - second;
-      case '÷': return second === 0 ? 'Error' : first / second;
+      case '÷': return second === 0 ? 'No÷by0pls' : first / second;
       case 'x': return first * second;
       default: return 'Error';
     }
