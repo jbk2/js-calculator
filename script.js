@@ -29,8 +29,10 @@ document.addEventListener('DOMContentLoaded', function() {
       togglePower();
       clearOperator()
     } else if (value === "C") {
-      zeroScreen();
-      clearOperator()
+      if(powerOn) {
+        zeroScreen();
+        clearOperator();
+      }
     } else if ('0123456789'.includes(value)) {
       if((firstVal && firstVal.length > 0) && (operator && operator.length > 0) && (input && input.length === 0)) { emptyScreenDigits() };
       addInput(value);
@@ -42,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log(value + ' is an operator')
       console.log(operator + ' is what operator is')
     } else if (value === '=') {
+      if(firstVal.length === 0) { return 'firstVal not set' };
       setSecondVal();
       renderCalculation(calculate());
       console.log(value + ' was pressed, need to process()')
@@ -91,6 +94,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function renderCalculation(value) {
     screen.innerHTML = value;
+    resetValues();
+    input = value;
   }
 
   function addInput(value) {
@@ -124,6 +129,12 @@ document.addEventListener('DOMContentLoaded', function() {
   function clearOperator() {
     operator = [];
   }
+
+  function resetValues() {
+    operator = []
+    firstVal = []
+    secondVal = []
+  }
   
   // ##################### Maths functions #############################
   function add(augend, addend) {
@@ -148,19 +159,22 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   function calculate() {
-    
     firstVal = firstVal.reduce((accumulator, current) => accumulator + current);
     secondVal = secondVal.reduce((accumulator, current) => accumulator + current);
-    
-    console.log('firstVal = ' + firstVal);
-    console.log('secondVal = ' + secondVal);
-    console.log('operator is ' + operator);
-    console.log('operator[0] is ' + operator[0]);
     
     switch (operator[0]) {
       case '+':
         return add(firstVal, secondVal);
-      break;
+        break;
+      case '-':
+        return subtract(firstVal, secondVal);
+        break;
+      case '÷':
+        return divide(firstVal, secondVal);
+        break;
+      case 'x':
+        return multiply(firstVal, secondVal);
+        break;
     }
   };
   
