@@ -1,15 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const btns = document.querySelectorAll('button.btn');
   const icons = document.querySelectorAll('#operator-icons span');
   const screen = document.getElementById('screen-io');
-
   let powerOn = false;
   let input = [];
   let operator = null;
   let firstVal = null;
   let resultDisplayed = false;
 
-  // Add event listener to buttons
   document.getElementById('keypad').addEventListener('click', (event) => {
     const btn = event.target.closest('button.btn');
     if (!btn) return;
@@ -23,36 +20,37 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function processBtn(value) {
     if (!powerOn && value !== 'AC') return;
-
+  
     switch (true) {
       case value === 'AC':
         togglePower();
         resetCalculator();
         break;
-
+  
       case value === 'C':
         resetInput();
+        resetOperator();
         updateScreen('0');
         break;
-
-      case /\d/.test(value): // Numbers
+  
+      case /\d/.test(value):
         handleDigit(value);
         break;
-
-      case value === '.': // Decimal point
+  
+      case value === '.':
         handleDecimal();
         break;
-
-      case '÷x-+'.includes(value): // Operators
+  
+      case '÷x-+'.includes(value):
         handleOperator(value);
         break;
-
-      case value === '=': // Equals
+  
+      case value === '=':
         handleEquals();
         break;
     }
   }
-
+  
   function togglePower() {
     powerOn = !powerOn;
     resetCalculator();
@@ -66,10 +64,16 @@ document.addEventListener('DOMContentLoaded', function () {
     resultDisplayed = false;
     clearOperatorIcons();
   }
-
+  
   function resetInput() {
     input = [];
     resultDisplayed = false;
+    firstVal = null;
+    operator = null;
+  }
+
+  function resetOperator() {
+    operator = null;
   }
 
   function updateScreen(content) {
@@ -82,8 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function handleDigit(value) {
     if (resultDisplayed) {
-      // Start fresh after a result
-      resetCalculator();
+      resetCalculator(); // Start fresh after a result
     }
     input.push(value);
     updateScreen(input.join(''));
@@ -97,12 +100,19 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function handleOperator(value) {
-    if (resultDisplayed) {
+    // handle various states of input & firstVal:
+    if (resultDisplayed) { // Use result as the first value for the next operation
       firstVal = parseFloat(screen.innerHTML);
       resultDisplayed = false;
-    } else if (!firstVal) {
+    } else if (!firstVal && input.length > 0) { // Set the first value from input if not already set
       firstVal = parseFloat(input.join(''));
+    } else if (firstVal && input.length > 0) { // Perform calculation if first value and operator exist
+      firstVal = calculate(firstVal, parseFloat(input.join('')), operator);
+      updateScreen(firstVal);
+    } else if (!firstVal) { // If no input and no first value, assume a new calculation
+      return;
     }
+  
     operator = value;
     input = [];
     toggleOperatorIcon(value);
@@ -115,19 +125,19 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function handleEquals() {
-    if (!firstVal || !operator) return;
-
+    if (!firstVal || !operator || input.length === 0) return;
+  
     const secondVal = parseFloat(input.join(''));
     const result = calculate(firstVal, secondVal, operator);
-
+  
     updateScreen(result);
-    firstVal = result; // Set result as the new first value
+    firstVal = result; // Use result as the new first value
     operator = null;
     input = [];
     resultDisplayed = true;
     clearOperatorIcons();
   }
-
+  
   function calculate(first, second, operator) {
     switch (operator) {
       case '+': return first + second;
