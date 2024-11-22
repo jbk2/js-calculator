@@ -48,6 +48,9 @@ document.addEventListener('DOMContentLoaded', function () {
       case value === '=':
         handleEquals();
         break;
+      
+      default:
+        updateScreen('fake btn');
     }
   }
   
