@@ -83,6 +83,13 @@ body {
   position: relative;
 }
 
+#screen {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-end;
+  margin-right: 0.6rem;
+}
+
 .seven-segment {
   font-family: 'Seven Segment', sans-serif;
   font-size: 3.8rem;
@@ -92,14 +99,13 @@ body {
   /* text-shadow: 0 0 2px black; */
 }
 
-#digits-io {
+#screen-io {
   align-self: center;
-  margin-right: 0.6rem;
-  padding-top: 0.3rem;
+  margin-top: 0.1rem;
   max-width: 100%;
   overflow: hidden;
-  text-align: right; /* Align content to the right */
-  text-overflow: ellipsis; /* Add ellipsis for clipped content */
+  text-align: right;
+  text-overflow: ellipsis;
   white-space: nowrap;
   /* direction: rtl; */
 }
@@ -108,7 +114,19 @@ body {
   font-weight: 900;
   color: rgb(57, 61, 80);
   line-height: 0.5rem;
+  align-self: end;
+  padding-top: 0.2rem;
+  padding-right: 0.3rem;
 }
+
+#operator-icons span {
+  visibility: hidden;
+}
+
+#operator-icons span.visible {
+  visibility: visible;
+}
+
 
 /* #################### Keypad layout ######################### */
 #keypad {
@@ -156,7 +174,7 @@ body {
 
 /* Set% button */
 #btn-2-4 {
-  line-height: 1.1rem;
+  line-height: 1rem;
   align-content: flex-start;
 }
 
@@ -166,14 +184,16 @@ body {
 
 /* Mode button */
 #btn-3-1 {
-  line-height: 1.1rem;
+  line-height: 0.8rem;
   align-content: flex-start;
 }
 
 #btn-3-1 #mode-text {
   font-size: x-small;
+  line-height: 1rem;
 }
 
+/* C & AC buttons */
 #btn-5-1 {
   background-color: rgb(151, 87, 2);
 }
@@ -181,6 +201,7 @@ body {
 #btn-6-1 {
   background-color: rgb(151, 87, 2);
 }
+/*  */
 
 .xl-font {
   font-size: x-large;

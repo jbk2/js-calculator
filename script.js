@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 
   const btns = document.querySelectorAll('button.btn');
-  const screen = document.getElementById('digits-io');
+  let screen = document.getElementById('screen-io');
   const acBtn = Array.from(btns).find(btn => btn.dataset.value === 'AC');
   let powerOn = false
   
@@ -31,7 +31,8 @@ document.addEventListener('DOMContentLoaded', function() {
     } else if ('0123456789'.includes(value)) {
       populateScreen(value)
     } else if ('÷x-+'.includes(value)) {
-      showOperatorIcon(value);
+      toggleOperatorIcon(value);
+    
       console.log(value + ' is an operator')
     };
   };
@@ -43,25 +44,57 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   function zeroScreen() {
+    removeOperatorIcons();
     screen.innerHTML = '0';
   }
 
   function emptyScreen() {
+    removeOperatorIcons();
     screen.innerHTML = '';
   }
 
-  function showOperatorIcon(value) {
+  function toggleOperatorIcon(value) {
+    removeOperatorIcons();
     let icon = document.getElementById(value);
-    icon.removeAttribute('hidden');
-    console.log(icon);
+    icon.classList.toggle('visible');
   }
   
   function populateScreen(value) {
-    console.log(value);
-    screen.innerHTML += value;
+    screen = document.getElementById('screen-io');
+    if(!powerOn) return;
+    if(screen.textContent === '0') {
+      screen.innerHTML = value;
+    } else {
+      screen.innerHTML += value;
+    };
   };
 
+  function removeOperatorIcons() {
+    let icons = document.querySelectorAll('#operator-icons span');
+    icons.forEach(icon => icon.classList.remove('visible'));
+  }
 
-
-
+  
 });
+
+// ########################################## global scope - for console testing #############################
+
+function add(augend, addend) {
+  let sum = +(augend) + +(addend);
+  return sum;
+};
+
+function subtract(minuend, subtrahend) {
+  let difference = +(minuend) - +(subtrahend);
+  return difference;
+};
+
+function divide(dividend, divisor) {
+  let quotient = +(dividend) / +(divisor);
+  return quotient;
+};
+
+function multiply(multiplicand, multiplier) {
+  let product = +(multiplicand) * +(multiplier);
+  return product;
+};
