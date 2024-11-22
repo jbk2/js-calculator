@@ -129,8 +129,9 @@ document.addEventListener('DOMContentLoaded', function () {
   
     const secondVal = parseFloat(input.join(''));
     const result = calculate(firstVal, secondVal, operator);
+    const roundedResult = roundToTenDigits(result);
   
-    updateScreen(result);
+    updateScreen(roundedResult);
     firstVal = result; // Use result as the new first value
     operator = null;
     input = [];
@@ -146,5 +147,11 @@ document.addEventListener('DOMContentLoaded', function () {
       case 'x': return first * second;
       default: return 'Error';
     }
+  }
+
+  function roundToTenDigits(value) {
+    if (typeof value !== 'number' || isNaN(value)) return 'Error';
+    const rounded = parseFloat(value.toPrecision(10)); // Round to 10 significant digits
+    return rounded.toString().length > 10 ? rounded.toExponential(9) : rounded; // Use scientific notation if needed
   }
 });
